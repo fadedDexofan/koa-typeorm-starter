@@ -1,0 +1,61 @@
+{
+  "name": "koa-typeorm-boilerplate",
+  "version": "1.0.0",
+  "description": "Boilerplate for using koa with ts and typeorm",
+  "main": "dist/server.js",
+  "keywords": [
+    "boilerplate",
+    "javascript",
+    "typescript",
+    "koa",
+    "typeorm",
+    "jwt",
+    "postgres"
+  ],
+  "author": "fadedDexofan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fadedDexofan/koa-typeorm-boilerplate"
+  },
+  "scripts": {
+    "start": "npm run serve",
+    "build": "npm run build-ts && npm run tslint",
+    "serve": "node dist/server.js",
+    "watch-node": "nodemon dist/server.js",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect dist/server.js",
+    "watch-debug":
+      "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
+  },
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "pg": "^7.4.3",
+    "reflect-metadata": "^0.1.12",
+    "typeorm": "^0.2.6",
+    "winston": "winstonjs/winston"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.45",
+    "@types/koa-bodyparser": "^4.2.0",
+    "@types/koa-router": "^7.0.28",
+    "@types/node": "^10.1.2",
+    "husky": "^0.14.3",
+    "nodemon": "^1.17.5",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "tslint-language-service": "^0.9.9",
+    "typescript": "^2.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run tslint"
+    }
+  }
+}
