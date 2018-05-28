@@ -2,7 +2,7 @@
   "name": "koa-typeorm-boilerplate",
   "version": "1.0.0",
   "description": "Boilerplate for using koa with ts and typeorm",
-  "main": "dist/app.js",
+  "main": "dist/server.js",
   "keywords": [
     "boilerplate",
     "javascript",
@@ -21,13 +21,13 @@
   "scripts": {
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
-    "serve": "node dist/app.js",
-    "watch-node": "nodemon dist/app.js",
+    "serve": "node dist/server.js",
+    "watch-node": "nodemon dist/server.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect dist/app.js",
+    "serve-debug": "nodemon --inspect dist/server.js",
     "watch-debug":
       "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
@@ -46,6 +46,7 @@
     "routing-controllers": "^0.7.7",
     "typedi": "^0.7.3",
     "typeorm": "^0.2.6",
+    "typeorm-typedi-extensions": "^0.2.1",
     "winston": "winstonjs/winston"
   },
   "devDependencies": {

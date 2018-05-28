@@ -18,13 +18,13 @@ import {
   UnauthorizedError,
   UseBefore,
 } from "routing-controllers";
-import { getRepository, Repository } from "typeorm";
-import { errorCodes } from "../config/errorCodes";
-import { RefreshToken } from "../db/entity/RefreshToken";
-import { User } from "../db/entity/User";
-import * as jwtService from "../services/jwtService";
-import { makeAccessToken } from "../services/makeAccessTokenService";
-import { makeRefreshToken } from "../services/makeRefreshTokenService";
+import { OrmRepository } from "typeorm-typedi-extensions";
+import { errorCodes } from "../../config/errorCodes";
+import { RefreshToken, User } from "../../db/entity";
+import { RefreshRepository, UserRepository } from "../../db/repositories";
+import * as jwtService from "../../services/jwtService";
+import { makeAccessToken } from "../../services/makeAccessTokenService";
+import { makeRefreshToken } from "../../services/makeRefreshTokenService";
 
 const JWT_SECRET = process.env.JWT_SECRET || "changemeinenv";
 
@@ -32,18 +32,12 @@ async function hashPassword(password: string, saltRounds: number = 10) {
   return bcrypt.hash(password, saltRounds);
 }
 
-const UserRepository = getRepository(User);
-const RefreshRepository = getRepository(RefreshToken);
-
 @JsonController("/auth")
 export class AuthController {
   constructor(
-    private userRepository: Repository<User>,
-    private refreshRepository: Repository<RefreshToken>,
-  ) {
-    this.userRepository = UserRepository;
-    this.refreshRepository = RefreshRepository;
-  }
+    @OrmRepository() private userRepository: UserRepository,
+    @OrmRepository() private refreshRepository: RefreshRepository,
+  ) {}
   @Post("/register")
   public async register(@Ctx() ctx: Context, @Body() userData: User) {
     const { username, email, password } = userData;
