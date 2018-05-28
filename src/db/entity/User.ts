@@ -1,5 +1,4 @@
 import * as bcrypt from "bcryptjs";
-import { Exclude } from "class-transformer";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { RefreshToken } from "./RefreshToken";
 
@@ -12,9 +11,7 @@ export class User {
     cascade: true,
   })
   public refreshTokens: RefreshToken[];
-  @Exclude()
-  @Column()
-  public password: string;
+  @Column() public password: string;
   public setPassword(pw: string) {
     this.password = pw;
   }

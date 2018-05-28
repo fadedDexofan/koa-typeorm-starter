@@ -1,15 +1,28 @@
 import dotenv from "dotenv";
 dotenv.config();
-
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
 import "reflect-metadata";
-import router from "./routes";
+import { createKoaServer, useContainer } from "routing-controllers";
+import { Container } from "typedi";
+import { createConnection } from "typeorm";
+import logger from "./utils/logger";
 
-const app = new Koa();
+const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser());
-app.use(router.routes());
-app.use(router.allowedMethods());
+useContainer(Container);
 
-export default app;
+createConnection()
+  .then(async (connection) => {
+    try {
+      logger.info("DB connected, now running Koa");
+      const app = createKoaServer({
+        routePrefix: "/api",
+        cors: true,
+        controllers: [__dirname + "/controllers/**/*.js"],
+      });
+      app.listen(3000);
+      logger.info(`Server started at http://localhost:${PORT}`);
+    } catch (err) {
+      logger.error(err);
+    }
+  })
+  .catch((err) => logger.error(`TypeORM connection error: ${err}`));

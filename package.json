@@ -2,7 +2,7 @@
   "name": "koa-typeorm-boilerplate",
   "version": "1.0.0",
   "description": "Boilerplate for using koa with ts and typeorm",
-  "main": "dist/server.js",
+  "main": "dist/app.js",
   "keywords": [
     "boilerplate",
     "javascript",
@@ -21,26 +21,30 @@
   "scripts": {
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
-    "serve": "node dist/server.js",
-    "watch-node": "nodemon dist/server.js",
+    "serve": "node dist/app.js",
+    "watch-node": "nodemon dist/app.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect dist/server.js",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
+    "serve-debug": "nodemon --inspect dist/app.js",
+    "watch-debug":
+      "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.1.9",
     "dotenv": "^5.0.1",
     "jsonwebtoken": "^8.2.1",
+    "kcors": "^2.2.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-jwt": "^3.3.2",
     "koa-router": "^7.4.0",
     "pg": "^7.4.3",
     "reflect-metadata": "^0.1.12",
+    "routing-controllers": "^0.7.7",
+    "typedi": "^0.7.3",
     "typeorm": "^0.2.6",
     "winston": "winstonjs/winston"
   },
