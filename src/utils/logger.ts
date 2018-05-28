@@ -1,5 +1,6 @@
 import fs from "fs";
 import { createLogger, format, transports } from "winston";
+
 const { combine, colorize, timestamp, label, printf, prettyPrint } = format;
 
 const logDir = "logs";

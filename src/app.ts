@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import "reflect-metadata";

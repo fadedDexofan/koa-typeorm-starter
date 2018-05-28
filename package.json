@@ -28,13 +28,16 @@
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "debug": "npm run build && npm run watch-debug",
     "serve-debug": "nodemon --inspect dist/server.js",
-    "watch-debug":
-      "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.1.9",
     "dotenv": "^5.0.1",
+    "jsonwebtoken": "^8.2.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
+    "koa-jwt": "^3.3.2",
     "koa-router": "^7.4.0",
     "pg": "^7.4.3",
     "reflect-metadata": "^0.1.12",
@@ -42,6 +45,9 @@
     "winston": "winstonjs/winston"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.1",
+    "@types/dotenv": "^4.0.3",
+    "@types/jsonwebtoken": "^7.2.7",
     "@types/koa": "^2.0.45",
     "@types/koa-bodyparser": "^4.2.0",
     "@types/koa-router": "^7.0.28",
