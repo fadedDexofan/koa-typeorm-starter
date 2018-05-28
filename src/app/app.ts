@@ -15,6 +15,7 @@ export class App {
       routePrefix: "/api",
       cors: true,
       controllers: [__dirname + "/../app/controllers/**/*.controller.js"],
+      middlewares: [__dirname + "/../app/middlewares/**/*.middleware.js"],
     });
   }
 
