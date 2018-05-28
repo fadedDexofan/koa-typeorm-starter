@@ -7,13 +7,13 @@
   "database": "database",
   "synchronize": true,
   "logging": true,
-  "entities": ["dist/db/entity/**/*.js"],
-  "migrations": ["dist/db/migration/**/*.js"],
-  "subscribers": ["dist/db/subscriber/**/*.js"],
+  "entities": ["dist/db/entities/**/*.js"],
+  "migrations": ["dist/db/migrations/**/*.js"],
+  "subscribers": ["dist/db/subscribers/**/*.js"],
   "cli": {
-    "entitiesDir": "src/db/entity",
-    "migrationsDir": "src/db/migration",
-    "subscribersDir": "src/db/subscriber"
+    "entitiesDir": "src/db/entities",
+    "migrationsDir": "src/db/migrations",
+    "subscribersDir": "src/db/subscribers"
   },
   "cache": true
 }

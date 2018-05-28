@@ -14,11 +14,11 @@ import {
   UseBefore,
 } from "routing-controllers";
 import { OrmRepository } from "typeorm-typedi-extensions";
-import { User } from "../../db/entity";
-import { RefreshToken } from "../../db/entity/RefreshToken";
-import { RefreshRepository, UserRepository } from "../../db/repositories";
-import jwt from "../../middlewares/jwt";
-import * as jwtService from "../../services/jwtService";
+import { RefreshToken, User } from "../../../db/entities";
+import { RefreshRepository, UserRepository } from "../../../db/repositories";
+import jwt from "../../../middlewares/jwt";
+import * as jwtService from "../../../services/jwtService";
+
 @JsonController("/users")
 @UseBefore(jwt)
 export class UserController {

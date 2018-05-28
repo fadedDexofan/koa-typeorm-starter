@@ -1,5 +1,5 @@
 import { EntityRepository, FindManyOptions, Repository } from "typeorm";
-import { User } from "../entity";
+import { User } from "../entities";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

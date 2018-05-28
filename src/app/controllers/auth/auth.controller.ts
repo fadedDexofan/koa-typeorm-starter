@@ -19,12 +19,13 @@ import {
   UseBefore,
 } from "routing-controllers";
 import { OrmRepository } from "typeorm-typedi-extensions";
-import { errorCodes } from "../../config/errorCodes";
-import { RefreshToken, User } from "../../db/entity";
-import { RefreshRepository, UserRepository } from "../../db/repositories";
-import * as jwtService from "../../services/jwtService";
-import { makeAccessToken } from "../../services/makeAccessTokenService";
-import { makeRefreshToken } from "../../services/makeRefreshTokenService";
+
+// TODO: Rework to typedi services
+import { RefreshToken, User } from "../../../db/entities";
+import { RefreshRepository, UserRepository } from "../../../db/repositories";
+import * as jwtService from "../../../services/jwtService";
+import { makeAccessToken } from "../../../services/makeAccessTokenService";
+import { makeRefreshToken } from "../../../services/makeRefreshTokenService";
 
 const JWT_SECRET = process.env.JWT_SECRET || "changemeinenv";
 
