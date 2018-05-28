@@ -1,6 +1,16 @@
 import * as bcrypt from "bcryptjs";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { RefreshToken } from "./";
+import { Role } from "./role.entity";
 
 @Entity()
 export class User {
@@ -12,6 +22,17 @@ export class User {
   })
   public refreshTokens: RefreshToken[];
   @Column() public password: string;
+
+  @ManyToMany((type) => Role)
+  @JoinTable({ name: "user_roles" })
+  public roles: Role[];
+  @CreateDateColumn() public createdAt: Date;
+  @UpdateDateColumn() public updatedAt: Date;
+  constructor(username: string, email: string, roles: Role[]) {
+    this.username = username;
+    this.email = email;
+    this.roles = roles;
+  }
   public setPassword(pw: string) {
     this.password = pw;
   }

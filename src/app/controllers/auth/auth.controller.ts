@@ -22,7 +22,11 @@ import { OrmRepository } from "typeorm-typedi-extensions";
 
 // TODO: Rework to typedi services
 import { RefreshToken, User } from "../../../db/entities";
-import { RefreshRepository, UserRepository } from "../../../db/repositories";
+import {
+  RefreshRepository,
+  RoleRepository,
+  UserRepository,
+} from "../../../db/repositories";
 import { BcryptService, JWTService } from "../../../services";
 
 const JWT_SECRET = process.env.JWT_SECRET || "changemeinenv";
@@ -32,6 +36,7 @@ export class AuthController {
   constructor(
     @OrmRepository() private userRepository: UserRepository,
     @OrmRepository() private refreshRepository: RefreshRepository,
+    @OrmRepository() private roleRepository: RoleRepository,
     private bcryptService: BcryptService,
     private jwtService: JWTService,
   ) {}
@@ -46,10 +51,18 @@ export class AuthController {
 
     const hashedPassword = await this.bcryptService.hashString(password);
 
-    const newUser = new User();
+    const role = await this.roleRepository.getRoleByName("user");
+    if (!role) {
+      throw new Error(
+        `Cannot create user, cannot get role: ${userData.roles[0].name}`,
+      );
+    }
+
+    const newUser = new User(username, email, [role]);
+
     newUser.username = username;
     newUser.email = email;
-    newUser.setPassword(hashedPassword);
+    newUser.password = await this.bcryptService.hashString(password);
 
     const createdUser: User = await this.userRepository.save(newUser);
     delete createdUser.password;
@@ -63,7 +76,7 @@ export class AuthController {
 
     const user = await this.userRepository.findOne(
       { username },
-      { relations: ["refreshTokens"] },
+      { relations: ["refreshTokens", "roles"] },
     );
     if (!user) {
       return new BadRequestError("User with this credentials not found");

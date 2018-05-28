@@ -16,6 +16,7 @@ export class JWTService {
       payload: {
         accessToken: true,
         username: user.username,
+        roles: user.roles,
       },
       options: {
         algorithm: "HS512",

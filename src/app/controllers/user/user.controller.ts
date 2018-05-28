@@ -2,8 +2,10 @@ import * as bcrypt from "bcryptjs";
 import { classToPlain } from "class-transformer";
 import { Context } from "koa";
 import {
+  Authorized,
   Body,
   Ctx,
+  CurrentUser,
   Delete,
   Get,
   JsonController,
@@ -16,21 +18,19 @@ import {
 import { OrmRepository } from "typeorm-typedi-extensions";
 import { RefreshToken, User } from "../../../db/entities";
 import { RefreshRepository, UserRepository } from "../../../db/repositories";
-import jwt from "../../../middlewares/jwt";
-import { JWTService } from "../../../services";
+import { JWTService } from "../../../services/jwt.service";
+import { authorizationChecker } from "../../middlewares/authorizationChecker.middleware";
 
 @JsonController("/users")
-@UseBefore(jwt)
 export class UserController {
   constructor(
     @OrmRepository() private userRepository: UserRepository,
     @OrmRepository() private refreshRepository: RefreshRepository,
     private jwtService: JWTService,
   ) {}
+  @Authorized(["user"])
   @Get("/me")
-  public async profile(@Ctx() ctx: Context) {
-    const { username } = ctx.state.user;
-    const user = await this.userRepository.getUserByUsername(username);
+  public async profile(@Ctx() ctx: Context, @CurrentUser() user: User) {
     if (!user) {
       return new NotFoundError("User not found");
     }
