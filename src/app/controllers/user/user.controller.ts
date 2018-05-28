@@ -17,7 +17,7 @@ import { OrmRepository } from "typeorm-typedi-extensions";
 import { RefreshToken, User } from "../../../db/entities";
 import { RefreshRepository, UserRepository } from "../../../db/repositories";
 import jwt from "../../../middlewares/jwt";
-import * as jwtService from "../../../services/jwtService";
+import { JWTService } from "../../../services";
 
 @JsonController("/users")
 @UseBefore(jwt)
@@ -25,6 +25,7 @@ export class UserController {
   constructor(
     @OrmRepository() private userRepository: UserRepository,
     @OrmRepository() private refreshRepository: RefreshRepository,
+    private jwtService: JWTService,
   ) {}
   @Get("/me")
   public async profile(@Ctx() ctx: Context) {

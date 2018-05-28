@@ -23,21 +23,17 @@ import { OrmRepository } from "typeorm-typedi-extensions";
 // TODO: Rework to typedi services
 import { RefreshToken, User } from "../../../db/entities";
 import { RefreshRepository, UserRepository } from "../../../db/repositories";
-import * as jwtService from "../../../services/jwtService";
-import { makeAccessToken } from "../../../services/makeAccessTokenService";
-import { makeRefreshToken } from "../../../services/makeRefreshTokenService";
+import { BcryptService, JWTService } from "../../../services";
 
 const JWT_SECRET = process.env.JWT_SECRET || "changemeinenv";
-
-async function hashPassword(password: string, saltRounds: number = 10) {
-  return bcrypt.hash(password, saltRounds);
-}
 
 @JsonController("/auth")
 export class AuthController {
   constructor(
     @OrmRepository() private userRepository: UserRepository,
     @OrmRepository() private refreshRepository: RefreshRepository,
+    private bcryptService: BcryptService,
+    private jwtService: JWTService,
   ) {}
   @Post("/register")
   public async register(@Ctx() ctx: Context, @Body() userData: User) {
@@ -47,7 +43,8 @@ export class AuthController {
     if (dupUser) {
       return { message: "User already exists." };
     }
-    const hashedPassword = await hashPassword(password);
+
+    const hashedPassword = await this.bcryptService.hashString(password);
 
     const newUser = new User();
     newUser.username = username;
@@ -56,6 +53,7 @@ export class AuthController {
 
     const createdUser: User = await this.userRepository.save(newUser);
     delete createdUser.password;
+
     return createdUser;
   }
 
@@ -70,13 +68,20 @@ export class AuthController {
     if (!user) {
       return new BadRequestError("User with this credentials not found");
     }
-    const passwordIsCorrect = await user.checkPassword(password);
+
+    const passwordIsCorrect = await this.bcryptService.compareHash(
+      password,
+      user.password,
+    );
     if (!passwordIsCorrect) {
       return new UnauthorizedError("Wrong password");
     }
 
-    const accessToken = await makeAccessToken(user, JWT_SECRET);
-    const refreshToken = await makeRefreshToken(user, JWT_SECRET);
+    const accessToken = await this.jwtService.makeAccessToken(user, JWT_SECRET);
+    const refreshToken = await this.jwtService.makeRefreshToken(
+      user,
+      JWT_SECRET,
+    );
 
     const rToken = new RefreshToken();
     rToken.refreshToken = refreshToken;
@@ -111,7 +116,7 @@ export class AuthController {
       return new NotFoundError("Token not found");
     }
     try {
-      const valid = await jwtService.verify(refreshToken, JWT_SECRET);
+      const valid = await this.jwtService.verify(refreshToken, JWT_SECRET);
     } catch (err) {
       await this.refreshRepository.remove(tokenInDB);
       return new HttpError(403, "Invalid Refresh Token");
@@ -119,8 +124,14 @@ export class AuthController {
     if (expired) {
       await this.refreshRepository.remove(tokenInDB);
     }
-    const newAccessToken = await makeAccessToken(tokenInDB.user, JWT_SECRET);
-    const newRefreshToken = await makeRefreshToken(tokenInDB.user, JWT_SECRET);
+    const newAccessToken = await this.jwtService.makeAccessToken(
+      tokenInDB.user,
+      JWT_SECRET,
+    );
+    const newRefreshToken = await this.jwtService.makeRefreshToken(
+      tokenInDB.user,
+      JWT_SECRET,
+    );
 
     const rToken = new RefreshToken();
     rToken.refreshToken = refreshToken;

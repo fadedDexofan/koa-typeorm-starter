@@ -1,2 +1,2 @@
-export * from "./User";
-export * from "./RefreshToken";
+export * from "./user.entity";
+export * from "./refreshToken.entity";

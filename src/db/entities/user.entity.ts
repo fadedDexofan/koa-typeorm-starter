@@ -1,6 +1,6 @@
 import * as bcrypt from "bcryptjs";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { RefreshToken } from "./RefreshToken";
+import { RefreshToken } from "./";
 
 @Entity()
 export class User {
@@ -14,8 +14,5 @@ export class User {
   @Column() public password: string;
   public setPassword(pw: string) {
     this.password = pw;
-  }
-  public async checkPassword(plainTextPassword: string) {
-    return bcrypt.compare(plainTextPassword, this.password);
   }
 }
