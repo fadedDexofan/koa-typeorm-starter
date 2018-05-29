@@ -41,7 +41,7 @@ export class AuthController {
   public async register(@Ctx() ctx: Context, @Body() userData: User) {
     const { username, email, password } = userData;
 
-    const dupUser = await this.userRepository.findOne({ username });
+    const dupUser = await this.userRepository.getUserByUsername(username);
     if (dupUser) {
       return { message: "User already exists." };
     }
