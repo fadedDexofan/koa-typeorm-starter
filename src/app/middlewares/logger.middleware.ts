@@ -1,6 +1,6 @@
 import { Context } from "koa";
 import { KoaMiddlewareInterface, Middleware } from "routing-controllers";
-import logger from "../../utils/logger";
+import { logger } from "../../utils";
 
 @Middleware({ type: "before" })
 export class LoggingMiddleware implements KoaMiddlewareInterface {

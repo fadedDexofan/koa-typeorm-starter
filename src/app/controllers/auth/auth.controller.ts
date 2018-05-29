@@ -28,8 +28,6 @@ import {
 } from "../../../db/repositories";
 import { BcryptService, JWTService } from "../../../services";
 
-const JWT_SECRET = process.env.JWT_SECRET || "changemeinenv";
-
 @JsonController("/auth")
 export class AuthController {
   constructor(
@@ -89,11 +87,8 @@ export class AuthController {
       return new UnauthorizedError("Wrong password");
     }
 
-    const accessToken = await this.jwtService.makeAccessToken(user, JWT_SECRET);
-    const refreshToken = await this.jwtService.makeRefreshToken(
-      user,
-      JWT_SECRET,
-    );
+    const accessToken = await this.jwtService.makeAccessToken(user);
+    const refreshToken = await this.jwtService.makeRefreshToken(user);
 
     const rToken = new RefreshToken();
     rToken.refreshToken = refreshToken;
@@ -128,7 +123,7 @@ export class AuthController {
       return new NotFoundError("Token not found");
     }
     try {
-      const valid = await this.jwtService.verify(refreshToken, JWT_SECRET);
+      const valid = await this.jwtService.verify(refreshToken);
     } catch (err) {
       await this.refreshRepository.remove(tokenInDB);
       return new HttpError(403, "Invalid Refresh Token");
@@ -138,11 +133,9 @@ export class AuthController {
     }
     const newAccessToken = await this.jwtService.makeAccessToken(
       tokenInDB.user,
-      JWT_SECRET,
     );
     const newRefreshToken = await this.jwtService.makeRefreshToken(
       tokenInDB.user,
-      JWT_SECRET,
     );
 
     const rToken = new RefreshToken();

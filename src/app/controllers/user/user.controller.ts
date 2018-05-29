@@ -19,7 +19,7 @@ import { OrmRepository } from "typeorm-typedi-extensions";
 import { RefreshToken, User } from "../../../db/entities";
 import { RefreshRepository, UserRepository } from "../../../db/repositories";
 import { JWTService } from "../../../services/jwt.service";
-import { authorizationChecker } from "../../middlewares/authorizationChecker.middleware";
+import { authorizationChecker } from "../../middlewares";
 
 @JsonController("/users")
 export class UserController {
@@ -28,7 +28,7 @@ export class UserController {
     @OrmRepository() private refreshRepository: RefreshRepository,
     private jwtService: JWTService,
   ) {}
-  @Authorized(["user"])
+  @Authorized(["user", "admin"])
   @Get("/me")
   public async profile(@Ctx() ctx: Context, @CurrentUser() user: User) {
     if (!user) {

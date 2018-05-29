@@ -7,6 +7,8 @@ import { Container, Service } from "typedi";
 import { authorizationChecker } from "./middlewares/authorizationChecker.middleware";
 import { currentUserChecker } from "./middlewares/currentUserChecker.middleware";
 
+const DEBUG = process.env.NODE_ENV !== "production" ? true : false;
+
 @Service()
 export class App {
   private application: Koa;
@@ -14,7 +16,7 @@ export class App {
   public constructor() {
     useContainer(Container);
     this.application = createKoaServer({
-      development: process.env.NODE_ENV !== "production" ? true : false,
+      development: DEBUG,
       routePrefix: "/api",
       cors: true,
       controllers: [__dirname + "/../app/controllers/**/*.controller.js"],

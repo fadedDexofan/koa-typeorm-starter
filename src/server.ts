@@ -5,7 +5,7 @@ import { Container } from "typedi";
 import { App } from "./app/app";
 import { Database } from "./db/database";
 
-import logger from "./utils/logger";
+import { logger } from "./utils";
 
 const PORT = process.env.PORT || 3000;
 

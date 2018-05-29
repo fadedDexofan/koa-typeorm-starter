@@ -32,4 +32,4 @@ if (DEBUG) {
   );
 }
 
-export default logger;
+export { logger };

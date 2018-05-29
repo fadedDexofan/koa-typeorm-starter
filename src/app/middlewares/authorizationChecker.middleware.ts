@@ -5,31 +5,33 @@ import { getCustomRepository } from "typeorm";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import { Role } from "../../db/entities";
 import { UserRepository } from "../../db/repositories";
 import { JWTService } from "../../services";
+import { extractToken } from "../../utils";
 
 const jwtService = Container.get(JWTService);
-
-const JWT_SECRET: string = process.env.JWT_SECRET || "changemeinenv";
 
 export async function authorizationChecker(
   ctx: Context,
   roles: string[],
 ): Promise<boolean> {
-  const headers = ctx.request.headers;
-  let token: string =
-    headers && headers.authorization ? headers.authorization : "";
-  token = token.replace(/Bearer\s+/gm, "");
-  const payload: any = await jwtService.verify(token, JWT_SECRET);
+  const token = extractToken(ctx.request.headers);
+  const payload: any = await jwtService.verify(token);
   if (!payload) {
     return false;
   }
+  const userFromToken = await getCustomRepository(UserRepository).getUserByUuid(
+    payload.sub,
+  );
+  if (!userFromToken) {
+    return false;
+  }
   if (roles && roles.length) {
-    const isAuthorized = payload.roles.find(
-      (role: any) => roles.indexOf(role.name) > -1,
-    )
-      ? true
-      : false;
+    const userRoles = userFromToken.roles.map((role) => role.name);
+    const isAuthorized = roles.every((role: string) =>
+      userRoles.includes(role),
+    );
     if (!isAuthorized) {
       return false;
     }

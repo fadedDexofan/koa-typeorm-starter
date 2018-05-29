@@ -2,21 +2,22 @@ import { decode, sign, verify } from "jsonwebtoken";
 import { Service } from "typedi";
 import { User } from "../db/entities";
 
+const JWT_SECRET: string = process.env.JWT_SECRET || "changemeinenv";
+
 @Service()
 export class JWTService {
-  public async sign(payload: any, SECRET: string, options: any) {
-    return sign(payload, SECRET, options);
+  public async sign(payload: any, options: any) {
+    return sign(payload, JWT_SECRET, options);
   }
-  public async verify(token: string, SECRET: string) {
-    return verify(token, SECRET);
+  public async verify(token: string) {
+    return verify(token, JWT_SECRET);
   }
 
-  public async makeAccessToken(user: User, SECRET: string) {
+  public async makeAccessToken(user: User) {
     const configAccess = {
       payload: {
         accessToken: true,
         username: user.username,
-        roles: user.roles,
       },
       options: {
         algorithm: "HS512",
@@ -24,18 +25,14 @@ export class JWTService {
         expiresIn: "30m",
       },
     };
-    const token = await this.sign(
-      configAccess.payload,
-      SECRET,
-      configAccess.options,
-    );
+    const token = await this.sign(configAccess.payload, configAccess.options);
     const tokenData = decode(token);
     // @ts-ignore
     const exp = tokenData.exp;
     return { token, exp };
   }
 
-  public async makeRefreshToken(user: User, SECRET: string) {
+  public async makeRefreshToken(user: User) {
     const configRefresh = {
       payload: {
         refreshToken: true,
@@ -49,7 +46,6 @@ export class JWTService {
     };
     const refreshToken = await this.sign(
       configRefresh.payload,
-      SECRET,
       configRefresh.options,
     );
     return refreshToken;
