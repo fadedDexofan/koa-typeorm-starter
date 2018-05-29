@@ -30,7 +30,6 @@
     "kcors": "^2.2.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
-    "koa-jwt": "^3.3.2",
     "koa-router": "^7.4.0",
     "pg": "^7.4.3",
     "reflect-metadata": "^0.1.12",
