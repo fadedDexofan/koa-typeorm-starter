@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 const app = Container.get(App).getApp();
 const database = Container.get(Database);
 
-database.connect().then(() => {
+database.connect().then(async () => {
   app.listen(PORT, () => {
     logger.info(`Server started at http://localhost:${PORT}`);
   });

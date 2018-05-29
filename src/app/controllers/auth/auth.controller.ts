@@ -9,13 +9,13 @@ import {
   Ctx,
   Delete,
   Get,
+  HttpCode,
   HttpError,
   JsonController,
   NotFoundError,
   Param,
   Post,
   Put,
-  UnauthorizedError,
   UseBefore,
 } from "routing-controllers";
 import { InjectRepository } from "typeorm-typedi-extensions";
@@ -27,6 +27,11 @@ import {
   UserRepository,
 } from "../../../db/repositories";
 import { BcryptService, JWTService } from "../../../services";
+import {
+  BadRefreshTokenError,
+  UserAlreadyExistsError,
+  WrongPasswordError,
+} from "../../errors";
 
 @JsonController("/auth")
 export class AuthController {
@@ -37,13 +42,15 @@ export class AuthController {
     private bcryptService: BcryptService,
     private jwtService: JWTService,
   ) {}
+
+  @HttpCode(201)
   @Post("/register")
   public async register(@Ctx() ctx: Context, @Body() userData: User) {
     const { username, email, password } = userData;
 
     const dupUser = await this.userRepository.getUserByUsername(username);
     if (dupUser) {
-      return { message: "User already exists." };
+      throw new UserAlreadyExistsError();
     }
 
     const role = await this.roleRepository.getRoleByName("user");
@@ -76,7 +83,7 @@ export class AuthController {
       { relations: ["refreshTokens", "roles"] },
     );
     if (!user) {
-      return new BadRequestError("User with this credentials not found");
+      throw new BadRequestError("User with this credentials not found");
     }
 
     const passwordIsCorrect = await this.bcryptService.compareHash(
@@ -84,7 +91,7 @@ export class AuthController {
       user.password,
     );
     if (!passwordIsCorrect) {
-      return new UnauthorizedError("Wrong password");
+      throw new WrongPasswordError();
     }
 
     const accessToken = await this.jwtService.makeAccessToken(user);
@@ -108,6 +115,9 @@ export class AuthController {
     @BodyParam("refreshToken") refreshToken: string,
   ) {
     const tokenData = jwt.decode(refreshToken);
+    if (!tokenData) {
+      throw new BadRefreshTokenError();
+    }
     // @ts-ignore
     const expired = tokenData.exp < new Date().getTime() / 1000;
     // @ts-ignore
@@ -120,13 +130,13 @@ export class AuthController {
       relations: ["user"],
     });
     if (!tokenInDB) {
-      return new NotFoundError("Token not found");
+      throw new NotFoundError("Token not found");
     }
     try {
       const valid = await this.jwtService.verify(refreshToken);
     } catch (err) {
       await this.refreshRepository.remove(tokenInDB);
-      return new HttpError(403, "Invalid Refresh Token");
+      throw new HttpError(403, "Invalid Refresh Token");
     }
     if (expired) {
       await this.refreshRepository.remove(tokenInDB);
