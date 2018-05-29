@@ -14,6 +14,7 @@ export class App {
   public constructor() {
     useContainer(Container);
     this.application = createKoaServer({
+      development: process.env.NODE_ENV !== "production" ? true : false,
       routePrefix: "/api",
       cors: true,
       controllers: [__dirname + "/../app/controllers/**/*.controller.js"],

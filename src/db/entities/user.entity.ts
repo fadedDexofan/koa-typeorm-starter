@@ -33,7 +33,4 @@ export class User {
     this.email = email;
     this.roles = roles;
   }
-  public setPassword(pw: string) {
-    this.password = pw;
-  }
 }

@@ -20,7 +20,6 @@ import {
 } from "routing-controllers";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
-// TODO: Rework to typedi services
 import { RefreshToken, User } from "../../../db/entities";
 import {
   RefreshRepository,
@@ -49,8 +48,6 @@ export class AuthController {
       return { message: "User already exists." };
     }
 
-    const hashedPassword = await this.bcryptService.hashString(password);
-
     const role = await this.roleRepository.getRoleByName("user");
     if (!role) {
       throw new Error(
@@ -58,11 +55,13 @@ export class AuthController {
       );
     }
 
+    const hashedPassword = await this.bcryptService.hashString(password);
+
     const newUser = new User(username, email, [role]);
 
     newUser.username = username;
     newUser.email = email;
-    newUser.password = await this.bcryptService.hashString(password);
+    newUser.password = hashedPassword;
 
     const createdUser: User = await this.userRepository.save(newUser);
     delete createdUser.password;

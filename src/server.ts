@@ -8,6 +8,7 @@ import { Database } from "./db/database";
 import logger from "./utils/logger";
 
 const PORT = process.env.PORT || 3000;
+
 const app = Container.get(App).getApp();
 const database = Container.get(Database);
 

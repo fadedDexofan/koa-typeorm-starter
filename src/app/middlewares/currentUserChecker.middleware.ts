@@ -19,7 +19,6 @@ export async function currentUserChecker(
   let token: string =
     headers && headers.authorization ? headers.authorization : "";
   token = token.replace(/Bearer\s+/gm, "");
-  const payload = await jwtService.verify(token, JWT_SECRET);
-  // @ts-ignore
+  const payload: any = await jwtService.verify(token, JWT_SECRET);
   return getCustomRepository(UserRepository).findOne(payload.sub);
 }

@@ -4,6 +4,8 @@ import { Container, Service } from "typedi";
 import { getCustomRepository } from "typeorm";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import { UserRepository } from "../../db/repositories";
 import { JWTService } from "../../services";
 
 const jwtService = Container.get(JWTService);
@@ -18,12 +20,11 @@ export async function authorizationChecker(
   let token: string =
     headers && headers.authorization ? headers.authorization : "";
   token = token.replace(/Bearer\s+/gm, "");
-  const payload = await jwtService.verify(token, JWT_SECRET);
+  const payload: any = await jwtService.verify(token, JWT_SECRET);
   if (!payload) {
     return false;
   }
   if (roles && roles.length) {
-    // @ts-ignore
     const isAuthorized = payload.roles.find(
       (role: any) => roles.indexOf(role.name) > -1,
     )
@@ -33,6 +34,5 @@ export async function authorizationChecker(
       return false;
     }
   }
-  // @ts-ignore
   return true;
 }

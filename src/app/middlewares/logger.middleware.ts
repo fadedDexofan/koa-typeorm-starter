@@ -12,7 +12,7 @@ export class LoggingMiddleware implements KoaMiddlewareInterface {
     return next()
       .then(() => {
         const elapsed = Math.ceil(Date.now() - start);
-        logger.debug(`${ctx.method} ${ctx.url} - ${elapsed} ms`);
+        logger.debug(`(${ctx.method}) ${ctx.url} - ${elapsed}ms`);
       })
       .catch((err) => {
         logger.error(`${err}`);
