@@ -4,7 +4,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class Role {
   @PrimaryGeneratedColumn() public id: number;
 
-  @Column("text") public name: string;
+  @Column("text", { nullable: false })
+  public name: string;
 
   constructor(name: string) {
     this.name = name;

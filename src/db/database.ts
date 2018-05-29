@@ -1,6 +1,10 @@
 import "reflect-metadata";
 import { Container, Inject, Service } from "typedi";
-import { Connection, createConnection, useContainer } from "typeorm";
+import {
+  Connection,
+  createConnection,
+  useContainer as ormUseContainer,
+} from "typeorm";
 
 import { ConnectionSecure } from "../decorators/ConnectionSecure";
 import { IDatabase } from "../libs/IDatabase";
@@ -15,7 +19,7 @@ export class Database implements IDatabase {
       await this.connection.connect();
       return this.connection;
     }
-    useContainer(Container);
+    ormUseContainer(Container);
     this.connection = await createConnection();
     return this.connection;
   }

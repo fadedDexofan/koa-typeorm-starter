@@ -18,7 +18,7 @@ import {
   UnauthorizedError,
   UseBefore,
 } from "routing-controllers";
-import { OrmRepository } from "typeorm-typedi-extensions";
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 import { RefreshToken, User } from "../../../db/entities";
 import {
@@ -31,9 +31,9 @@ import { BcryptService, JWTService } from "../../../services";
 @JsonController("/auth")
 export class AuthController {
   constructor(
-    @OrmRepository() private userRepository: UserRepository,
-    @OrmRepository() private refreshRepository: RefreshRepository,
-    @OrmRepository() private roleRepository: RoleRepository,
+    @InjectRepository() private userRepository: UserRepository,
+    @InjectRepository() private refreshRepository: RefreshRepository,
+    @InjectRepository() private roleRepository: RoleRepository,
     private bcryptService: BcryptService,
     private jwtService: JWTService,
   ) {}

@@ -8,5 +8,5 @@
   "typescript.referencesCodeLens.enabled": true,
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "cSpell.userWords": ["Repo", "typeorm", "bodyparser"]
+  "cSpell.userWords": ["Repo", "typeorm", "bodyparser", "middlewares", "typedi"]
 }

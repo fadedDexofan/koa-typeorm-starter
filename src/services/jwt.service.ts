@@ -1,8 +1,11 @@
+import config from "config";
 import { decode, sign, verify } from "jsonwebtoken";
 import { Service } from "typedi";
 import { User } from "../db/entities";
 
-const JWT_SECRET: string = process.env.JWT_SECRET || "changemeinenv";
+const JWT_SECRET: string = config.has("auth.jwtSecret")
+  ? config.get("auth.jwtSecret")
+  : "changeinconfig";
 
 @Service()
 export class JWTService {

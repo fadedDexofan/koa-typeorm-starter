@@ -15,7 +15,7 @@ import {
   Put,
   UseBefore,
 } from "routing-controllers";
-import { OrmRepository } from "typeorm-typedi-extensions";
+import { InjectRepository } from "typeorm-typedi-extensions";
 import { RefreshToken, User } from "../../../db/entities";
 import { RefreshRepository, UserRepository } from "../../../db/repositories";
 import { JWTService } from "../../../services/jwt.service";
@@ -24,11 +24,11 @@ import { authorizationChecker } from "../../middlewares";
 @JsonController("/users")
 export class UserController {
   constructor(
-    @OrmRepository() private userRepository: UserRepository,
-    @OrmRepository() private refreshRepository: RefreshRepository,
+    @InjectRepository() private userRepository: UserRepository,
+    @InjectRepository() private refreshRepository: RefreshRepository,
     private jwtService: JWTService,
   ) {}
-  @Authorized(["user", "admin"])
+  @Authorized(["user"])
   @Get("/me")
   public async profile(@Ctx() ctx: Context, @CurrentUser() user: User) {
     if (!user) {

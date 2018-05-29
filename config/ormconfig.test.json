@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "",
+  "database": "test_db",
+  "synchronize": true,
+  "logging": false,
+  "cache": true
+}
