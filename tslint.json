@@ -6,5 +6,8 @@
     "promise-function-async": true,
     "object-literal-sort-keys": false,
     "no-implicit-dependencies": [true, "dev"]
+  },
+  "cliOptions": {
+    "exclude": ["node_modules"]
   }
 }

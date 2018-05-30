@@ -4,8 +4,9 @@ import { User } from "./";
 
 @Entity()
 export class RefreshToken {
-  @PrimaryGeneratedColumn() public id: number;
-  @Column() public refreshToken: string;
+  @PrimaryGeneratedColumn() public id?: number;
+  @Column({ type: "text" })
+  public refreshToken: string;
   @ManyToOne((type) => User, (user) => user.refreshTokens)
   public user: User;
 }

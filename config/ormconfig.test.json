@@ -5,7 +5,7 @@
   "username": "postgres",
   "password": "",
   "database": "test_db",
-  "synchronize": true,
+  "synchronize": false,
   "logging": false,
   "cache": true
 }

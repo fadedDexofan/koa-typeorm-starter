@@ -10,14 +10,15 @@
     "url": "https://github.com/fadedDexofan/koa-typeorm-boilerplate"
   },
   "scripts": {
-    "start": "npm run serve",
+    "start": "cross-env NODE_ENV=production npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "debug": "npm run build && npm run watch-debug",
+    "debug":
+      "cross-env NODE_ENV=development npm run build && npm run watch-debug",
     "serve-debug": "nodemon --inspect dist/server.js",
     "watch-debug":
       "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",

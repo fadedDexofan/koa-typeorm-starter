@@ -13,11 +13,8 @@ describe("e2e test: AuthController", async () => {
   const server = supertest(app.listen());
 
   before(async () => {
-    // FIXME: WRITE FUCKING MIGRATIONS
     await db.connect();
     await db.reset();
-    await db.disconnect();
-    await db.connect();
   });
   after(async () => {
     await db.disconnect();
@@ -25,9 +22,6 @@ describe("e2e test: AuthController", async () => {
 
   describe("Auth", async () => {
     let refreshToken: string;
-    before(async () => {
-      await db.executeSQL("INSERT INTO role VALUES (DEFAULT, 'user')");
-    });
 
     it("should register user", async () => {
       const response = await server.post("/api/auth/register").send({

@@ -62,13 +62,14 @@ export class AuthController {
 
     const hashedPassword = await this.bcryptService.hashString(password);
 
-    const newUser = new User(username, email, [role]);
+    const newUser = new User();
 
     newUser.username = username;
     newUser.email = email;
     newUser.password = hashedPassword;
+    newUser.roles = [role];
 
-    const createdUser: User = await this.userRepository.save(newUser);
+    const createdUser: User = await this.userRepository.createUser(newUser);
     delete createdUser.password;
 
     return createdUser;
@@ -99,7 +100,7 @@ export class AuthController {
 
     const rToken = new RefreshToken();
     rToken.refreshToken = refreshToken;
-    user.refreshTokens.push(rToken);
+    user.refreshTokens!.push(rToken);
     await this.userRepository.save(user);
 
     return {
