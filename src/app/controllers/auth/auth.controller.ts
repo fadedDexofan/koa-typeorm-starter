@@ -56,12 +56,7 @@ export class AuthController {
 
     let role = await this.roleRepository.getRoleByName("user");
     if (!role) {
-      await this.userRepository
-        .createQueryBuilder()
-        .insert()
-        .into("role", ["name"])
-        .values({ name: "user" })
-        .execute();
+      await this.roleRepository.createRole("user");
       role = await this.roleRepository.getRoleByName("user");
       if (!role) {
         throw new HttpError(500, "Role creation error");
@@ -91,7 +86,11 @@ export class AuthController {
   }
 
   @Post("/login")
-  public async login(@Ctx() ctx: Context, @Body() loginData: User) {
+  public async login(
+    @Ctx() ctx: Context,
+    @Body({ validate: false })
+    loginData: User,
+  ) {
     const { username, password } = loginData;
 
     const user = await this.userRepository

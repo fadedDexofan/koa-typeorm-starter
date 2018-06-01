@@ -25,23 +25,22 @@ describe("e2e test: AuthController", async () => {
 
     it("should register user", async () => {
       const response = await server.post("/api/auth/register").send({
-        username: "testuser",
-        email: "testuser@mail.com",
+        username: "testname",
+        email: "testname@mail.com",
         password: "12345678",
       });
-      console.log(response);
       expect(response.status).equals(201);
       expect(response.body).to.have.property("uuid");
-      expect(response.body).to.have.property("username", "testuser");
-      expect(response.body).to.have.property("email", "testuser@mail.com");
+      expect(response.body).to.have.property("username", "testname");
+      expect(response.body).to.have.property("email", "testname@mail.com");
       expect(response.body).to.have.property("roles");
       expect(response.body.roles).to.deep.equal([{ id: 1, name: "user" }]);
     });
 
     it("should return user duplication error", async () => {
       const response = await server.post("/api/auth/register").send({
-        username: "testuser",
-        email: "testuser@mail.com",
+        username: "testname",
+        email: "testname@mail.com",
         password: "12345678",
       });
       expect(response.status).equals(400);
@@ -50,7 +49,7 @@ describe("e2e test: AuthController", async () => {
 
     it("should login user", async () => {
       const response = await server.post("/api/auth/login").send({
-        username: "testuser",
+        username: "testname",
         password: "12345678",
       });
       expect(response.body).to.have.property("accessToken");
@@ -61,7 +60,7 @@ describe("e2e test: AuthController", async () => {
 
     it("should return wrong password error", async () => {
       const response = await server.post("/api/auth/login").send({
-        username: "testuser",
+        username: "testname",
         password: "wrong",
       });
       expect(response.status).equals(403);

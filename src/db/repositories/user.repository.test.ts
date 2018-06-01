@@ -45,7 +45,6 @@ describe("unit test: user repository", async () => {
     try {
       const save = await getCustomRepository(UserRepository).save(user);
     } catch (err) {
-      console.log(err);
       expect(err.name).to.be.equal("QueryFailedError");
     }
   });
@@ -61,7 +60,7 @@ describe("unit test: user repository", async () => {
 
   it("should get user by username", async () => {
     const user = await getCustomRepository(UserRepository).getUserByUsername(
-      "testname",
+      "testuser",
     );
     expect(user).to.have.property("username", "testuser");
   });

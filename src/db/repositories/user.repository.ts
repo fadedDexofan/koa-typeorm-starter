@@ -8,7 +8,7 @@ export class UserRepository extends Repository<User> {
   }
 
   public async getUserByUsername(username: string): Promise<User | undefined> {
-    return this.findOne({ username });
+    return this.findOne({ username }, { relations: ["roles"] });
   }
 
   public async getAllUsers(): Promise<User[] | undefined> {
