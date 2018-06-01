@@ -118,7 +118,7 @@ export class AuthController {
     rToken.refreshToken = refreshToken;
 
     if (user.refreshTokens!.length >= 10) {
-      await this.refreshRepository.remove(user.refreshTokens!);
+      await this.refreshRepository.dropUserTokens(user);
       user.refreshTokens! = [];
     }
 

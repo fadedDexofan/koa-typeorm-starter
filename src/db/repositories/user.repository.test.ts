@@ -37,7 +37,7 @@ describe("unit test: user repository", async () => {
     expect(user.roles).to.deep.equals([{ id: 1, name: "user" }]);
   });
 
-  it("should failed to create user", async () => {
+  it("should fail to create user", async () => {
     const user = new User();
     user.email = "testuser@mail.com";
     user.roles = [{ id: 1, name: "user" }];

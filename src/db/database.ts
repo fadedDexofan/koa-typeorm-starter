@@ -38,4 +38,12 @@ export class Database implements IDatabase {
     await this.connection.dropDatabase();
     await this.connection.runMigrations();
   }
+
+  public async runMigrations() {
+    await this.connection.runMigrations();
+  }
+
+  public async dropDatabase() {
+    await this.connection.dropDatabase();
+  }
 }
