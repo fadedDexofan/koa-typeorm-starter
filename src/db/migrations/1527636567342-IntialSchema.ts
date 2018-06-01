@@ -14,10 +14,12 @@ export class IntialSchema1527636567342 implements MigrationInterface {
         uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
         username character varying COLLATE pg_catalog."default" NOT NULL,
         email character varying COLLATE pg_catalog."default" NOT NULL,
-        password character varying COLLATE pg_catalog."default" NOT NULL,
+        password text COLLATE pg_catalog."default" NOT NULL,
         "createdAt" timestamp without time zone NOT NULL DEFAULT now(),
         "updatedAt" timestamp without time zone NOT NULL DEFAULT now(),
-        CONSTRAINT "PK_a95e949168be7b7ece1a2382fed" PRIMARY KEY (uuid)
+        CONSTRAINT "PK_a95e949168be7b7ece1a2382fed" PRIMARY KEY (uuid),
+        CONSTRAINT "UQ_78a916df40e02a9deb1c4b75edb" UNIQUE (username),
+        CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE (email)
       )
     `);
     await queryRunner.query(`

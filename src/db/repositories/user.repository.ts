@@ -14,8 +14,4 @@ export class UserRepository extends Repository<User> {
   public async getAllUsers(): Promise<User[] | undefined> {
     return this.find({ relations: ["roles"] });
   }
-
-  public async createUser(user: User): Promise<User> {
-    return this.save(user);
-  }
 }

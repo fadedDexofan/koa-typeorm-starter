@@ -26,25 +26,26 @@ describe("unit test: user repository", async () => {
   });
 
   it("should create user", async () => {
-    const user = await getCustomRepository(UserRepository).createUser({
-      username: "test",
-      email: "test@mail.com",
-      password: "test",
+    const user = await getCustomRepository(UserRepository).save({
+      username: "testuser",
+      email: "testuser@mail.com",
+      password: "12345678",
       roles: [{ id: 1, name: "user" }],
     });
-    expect(user).to.have.property("username", "test");
-    expect(user).to.have.property("email", "test@mail.com");
-    expect(user).to.have.property("password", "test");
+    expect(user).to.have.property("username", "testuser");
+    expect(user).to.have.property("email", "testuser@mail.com");
     expect(user.roles).to.deep.equals([{ id: 1, name: "user" }]);
   });
 
   it("should failed to create user", async () => {
     const user = new User();
-    user.email = "test@mail.com";
+    user.email = "testuser@mail.com";
     user.roles = [{ id: 1, name: "user" }];
+    user.password = "123456780";
     try {
       const save = await getCustomRepository(UserRepository).save(user);
     } catch (err) {
+      console.log(err);
       expect(err.name).to.be.equal("QueryFailedError");
     }
   });
@@ -53,16 +54,15 @@ describe("unit test: user repository", async () => {
     const users = await getCustomRepository(UserRepository).getAllUsers();
     expect(users).that.not.eql([]);
     const user = users![0];
-    expect(user).to.have.property("username", "test");
-    expect(user).to.have.property("email", "test@mail.com");
-    expect(user).to.have.property("password", "test");
+    expect(user).to.have.property("username", "testuser");
+    expect(user).to.have.property("email", "testuser@mail.com");
     expect(user.roles).to.deep.equals([{ id: 1, name: "user" }]);
   });
 
-  it("should get user by username ", async () => {
+  it("should get user by username", async () => {
     const user = await getCustomRepository(UserRepository).getUserByUsername(
-      "test",
+      "testname",
     );
-    expect(user).to.have.property("username", "test");
+    expect(user).to.have.property("username", "testuser");
   });
 });

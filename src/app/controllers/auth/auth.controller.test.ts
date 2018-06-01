@@ -25,23 +25,24 @@ describe("e2e test: AuthController", async () => {
 
     it("should register user", async () => {
       const response = await server.post("/api/auth/register").send({
-        username: "test",
-        email: "test@mail.com",
-        password: "test",
+        username: "testuser",
+        email: "testuser@mail.com",
+        password: "12345678",
       });
+      console.log(response);
       expect(response.status).equals(201);
       expect(response.body).to.have.property("uuid");
-      expect(response.body).to.have.property("username", "test");
-      expect(response.body).to.have.property("email", "test@mail.com");
+      expect(response.body).to.have.property("username", "testuser");
+      expect(response.body).to.have.property("email", "testuser@mail.com");
       expect(response.body).to.have.property("roles");
       expect(response.body.roles).to.deep.equal([{ id: 1, name: "user" }]);
     });
 
     it("should return user duplication error", async () => {
       const response = await server.post("/api/auth/register").send({
-        username: "test",
-        email: "test@mail.com",
-        password: "test",
+        username: "testuser",
+        email: "testuser@mail.com",
+        password: "12345678",
       });
       expect(response.status).equals(400);
       expect(response.body).to.have.property("name", "UserAlreadyExistsError");
@@ -49,8 +50,8 @@ describe("e2e test: AuthController", async () => {
 
     it("should login user", async () => {
       const response = await server.post("/api/auth/login").send({
-        username: "test",
-        password: "test",
+        username: "testuser",
+        password: "12345678",
       });
       expect(response.body).to.have.property("accessToken");
       expect(response.body).to.have.property("refreshToken");
@@ -60,7 +61,7 @@ describe("e2e test: AuthController", async () => {
 
     it("should return wrong password error", async () => {
       const response = await server.post("/api/auth/login").send({
-        username: "test",
+        username: "testuser",
         password: "wrong",
       });
       expect(response.status).equals(403);

@@ -23,6 +23,7 @@ export class App {
       middlewares: [__dirname + "/../app/middlewares/**/*.middleware.js"],
       authorizationChecker,
       currentUserChecker,
+      validation: { validationError: { target: false } },
     });
   }
 

@@ -10,6 +10,7 @@ import {
   Get,
   JsonController,
   NotFoundError,
+  OnUndefined,
   Param,
   Post,
   Put,
@@ -19,6 +20,7 @@ import { InjectRepository } from "typeorm-typedi-extensions";
 import { RefreshToken, User } from "../../../db/entities";
 import { RefreshRepository, UserRepository } from "../../../db/repositories";
 import { JWTService } from "../../../services/jwt.service";
+import { UserNotFoundError } from "../../errors";
 import { authorizationChecker } from "../../middlewares";
 
 @JsonController("/users")
@@ -29,12 +31,17 @@ export class UserController {
     private jwtService: JWTService,
   ) {}
   @Authorized(["user"])
-  @Get("/me")
+  @Get("/profile/current")
   public async profile(@Ctx() ctx: Context, @CurrentUser() user: User) {
     if (!user) {
       return new NotFoundError("User not found");
     }
-    delete user.password;
     return user;
+  }
+  @Authorized(["user"])
+  @Get("/:uuid")
+  @OnUndefined(UserNotFoundError)
+  public async getUser(@Param("uuid") uuid: string) {
+    return this.userRepository.getUserByUuid(uuid);
   }
 }

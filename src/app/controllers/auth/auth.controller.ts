@@ -11,6 +11,7 @@ import {
   Get,
   HttpCode,
   HttpError,
+  InternalServerError,
   JsonController,
   NotFoundError,
   Param,
@@ -26,10 +27,11 @@ import {
   RoleRepository,
   UserRepository,
 } from "../../../db/repositories";
-import { BcryptService, JWTService } from "../../../services";
+import { JWTService } from "../../../services";
 import {
   BadRefreshTokenError,
   UserAlreadyExistsError,
+  UserNotFoundError,
   WrongPasswordError,
 } from "../../errors";
 
@@ -39,7 +41,6 @@ export class AuthController {
     @InjectRepository() private userRepository: UserRepository,
     @InjectRepository() private refreshRepository: RefreshRepository,
     @InjectRepository() private roleRepository: RoleRepository,
-    private bcryptService: BcryptService,
     private jwtService: JWTService,
   ) {}
 
@@ -53,44 +54,60 @@ export class AuthController {
       throw new UserAlreadyExistsError();
     }
 
-    const role = await this.roleRepository.getRoleByName("user");
+    let role = await this.roleRepository.getRoleByName("user");
     if (!role) {
-      throw new Error(
-        `Cannot create user, cannot get role: ${userData.roles[0].name}`,
-      );
+      await this.userRepository
+        .createQueryBuilder()
+        .insert()
+        .into("role", ["name"])
+        .values({ name: "user" })
+        .execute();
+      role = await this.roleRepository.getRoleByName("user");
+      if (!role) {
+        throw new HttpError(500, "Role creation error");
+      }
     }
-
-    const hashedPassword = await this.bcryptService.hashString(password);
 
     const newUser = new User();
 
     newUser.username = username;
     newUser.email = email;
-    newUser.password = hashedPassword;
+    newUser.password = password;
     newUser.roles = [role];
 
-    const createdUser: User = await this.userRepository.createUser(newUser);
-    delete createdUser.password;
-
-    return createdUser;
+    try {
+      const createdUser: User = await this.userRepository.save(newUser);
+      delete createdUser.password;
+      return createdUser;
+    } catch (err) {
+      if (err.name === "QueryFailedError") {
+        throw new UserAlreadyExistsError(
+          "User with this credentials already exists",
+        );
+      } else {
+        throw new InternalServerError(err);
+      }
+    }
   }
 
   @Post("/login")
   public async login(@Ctx() ctx: Context, @Body() loginData: User) {
     const { username, password } = loginData;
 
-    const user = await this.userRepository.findOne(
-      { username },
-      { relations: ["refreshTokens", "roles"] },
-    );
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.refreshTokens", "refreshToken")
+      .leftJoinAndSelect("user_roles", "role", "role.userUuid = user.uuid")
+      .addSelect("user.password")
+      .where("user.username = :username", { username })
+      .getOne();
+
     if (!user) {
-      throw new BadRequestError("User with this credentials not found");
+      throw new UserNotFoundError("User with this credentials not found");
     }
 
-    const passwordIsCorrect = await this.bcryptService.compareHash(
-      password,
-      user.password,
-    );
+    const passwordIsCorrect = await user.checkPassword(password);
+
     if (!passwordIsCorrect) {
       throw new WrongPasswordError();
     }
@@ -100,7 +117,14 @@ export class AuthController {
 
     const rToken = new RefreshToken();
     rToken.refreshToken = refreshToken;
+
+    if (user.refreshTokens!.length >= 10) {
+      await this.refreshRepository.remove(user.refreshTokens!);
+      user.refreshTokens! = [];
+    }
+
     user.refreshTokens!.push(rToken);
+
     await this.userRepository.save(user);
 
     return {
@@ -115,13 +139,11 @@ export class AuthController {
     @Ctx() ctx: Context,
     @BodyParam("refreshToken") refreshToken: string,
   ) {
-    const tokenData = jwt.decode(refreshToken);
+    const tokenData: any = jwt.decode(refreshToken);
     if (!tokenData) {
       throw new BadRefreshTokenError();
     }
-    // @ts-ignore
     const expired = tokenData.exp < new Date().getTime() / 1000;
-    // @ts-ignore
     const uuid = tokenData.sub;
     const tokenInDB = await this.refreshRepository.findOne({
       where: {
