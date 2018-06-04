@@ -1,6 +1,3 @@
-import { Connection } from "typeorm";
-import { IDatabase } from "../libs/IDatabase";
-
 /**
  * A class decorator to check database connection before executing a method.
  * @param excludeMethods Methods that needs to be excluded for checking database connetion (eg: connect)

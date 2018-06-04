@@ -14,6 +14,10 @@ const database = Container.get(Database);
 
 database.connect().then(async () => {
   app.listen(PORT, () => {
-    logger.info(`Server started at http://localhost:${PORT}`);
+    logger.info(
+      `Server started at http://localhost:${PORT} NODE_ENV=${
+        process.env.NODE_ENV
+      }`,
+    );
   });
 });

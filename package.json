@@ -10,19 +10,23 @@
     "url": "https://github.com/fadedDexofan/koa-typeorm-boilerplate"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production npm run serve",
+    "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
-    "serve": "node dist/server.js",
-    "watch-node": "nodemon dist/server.js",
+    "serve": "cross-env NODE_ENV=production node dist/server.js",
+    "watch-node": "cross-env NODE_ENV=production nodemon dist/server.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "debug": "cross-env NODE_ENV=development npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect dist/server.js",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug":
+      "cross-env NODE_ENV=development nodemon --inspect dist/server.js",
+    "watch-debug":
+      "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "test": "npm run unit:test && npm run e2e:test",
-    "unit:test": "cross-env NODE_ENV=test npm run build-ts && mocha ./dist/db/repositories/*.test.js --timeout 5000 --exit",
-    "e2e:test": "cross-env NODE_ENV=test npm run build-ts && mocha ./dist/app/controllers/**/*.controller.test.js --timeout 5000 --exit"
+    "unit:test":
+      "npm run build-ts && cross-env NODE_ENV=test mocha ./dist/db/repositories/*.test.js --timeout 5000 --exit",
+    "e2e:test":
+      "npm run build-ts && cross-env NODE_ENV=test mocha ./dist/app/controllers/**/*.controller.test.js --timeout 5000 --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
