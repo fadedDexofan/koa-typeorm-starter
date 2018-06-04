@@ -2,11 +2,9 @@ let config;
 
 try {
   const path = process.cwd() + `/config/ormconfig.${process.env.NODE_ENV}.json`;
-  console.log(path);
   config = require(path);
 } catch (err) {
   const path = process.cwd() + "/config/ormconfig.json";
-  console.log(path);
   config = require(path);
 }
 

@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/fadedDexofan/koa-typeorm-starter.svg?branch=master)](https://travis-ci.org/fadedDexofan/koa-typeorm-starter)
-[![GitHub issues](https://img.shields.io/github/issues/fadedDexofan/koa-typeorm-boilerplate.svg?style=flat-square)](https://github.com/fadedDexofan/koa-typeorm-boilerplate/issues)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/451cb07dc5e84535999de481b4383d8f)](https://www.codacy.com/app/fadedDexofan/koa-typeorm-boilerplate?utm_source=github.com&utm_medium=referral&utm_content=fadedDexofan/koa-typeorm-boilerplate&utm_campaign=Badge_Grade)
+[![GitHub issues](https://img.shields.io/github/issues/fadedDexofan/koa-typeorm-starter.svg)](https://github.com/fadedDexofan/koa-typeorm-starter/issues)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/451cb07dc5e84535999de481b4383d8f)](https://www.codacy.com/app/fadedDexofan/koa-typeorm-starter?utm_source=github.com&utm_medium=referral&utm_content=fadedDexofan/koa-typeorm-starter&utm_campaign=Badge_Grade)
+[![GitHub license](https://img.shields.io/github/license/fadedDexofan/koa-typeorm-starter.svg)](https://github.com/fadedDexofan/koa-typeorm-starter/blob/master/LICENSE)
 
 # koa-typeorm-starter
 
