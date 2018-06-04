@@ -40,7 +40,11 @@ Starter project for using koa with TypeScript and TypeORM
 
       $ npm run start
 
-  And then check logs in `dirname/logs` to make sure that the startup is successful
+  If you want to use pm2 check it's config in `ecosystem.config.json` and the run:
+
+      $ npm run pm2
+
+Also if you run on production don't forget to check logs in `dirname/logs` to make sure that the startup is successful
 
 # Running the tests
 

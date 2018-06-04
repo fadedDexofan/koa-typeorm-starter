@@ -14,10 +14,18 @@ const database = Container.get(Database);
 
 database.connect().then(async () => {
   app.listen(PORT, () => {
-    logger.info(
-      `Server started at http://localhost:${PORT} NODE_ENV=${
-        process.env.NODE_ENV
-      }`,
-    );
+    logger.info(`Server started at http://localhost:${PORT}`);
+    process.send!("ready");
   });
+});
+
+process.on("SIGINT", () => {
+  database
+    .disconnect()
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((_err) => {
+      process.exit(1);
+    });
 });

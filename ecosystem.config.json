@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name": "koa-typeorm-starter",
+      "script": "./dist/server.js",
+      "watch": ["./dist"],
+      "instances": "max",
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      },
+      "kill_timeout": 5000,
+      "restart_delay": 5000,
+      "listen_timeout": 5000,
+      "wait_ready": true
+    }
+  ]
+}
