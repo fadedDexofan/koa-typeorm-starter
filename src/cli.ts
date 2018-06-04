@@ -44,7 +44,7 @@ commander.command("migrations:down").action(() => {
   });
 });
 
-commander.command("migrations:create <name>").action((name) => {
+commander.command("migrations:create <name>").action((name: string) => {
   exec(
     `typeorm migrations:create -n ${name}`,
     (code: any, stdout: any, stderr: any) => {
@@ -57,7 +57,7 @@ commander.command("migrations:create <name>").action((name) => {
   );
 });
 
-commander.command("migrations:generate <name>").action((name) => {
+commander.command("migrations:generate <name>").action((name: string) => {
   exec(
     `typeorm migrations:generate -n ${name}`,
     (code: any, stdout: any, stderr: any) => {
