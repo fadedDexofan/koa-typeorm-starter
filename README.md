@@ -30,9 +30,15 @@ Starter project for using koa with TypeScript and TypeORM
 
       $ npm run debug
 
-With that, you can see in your terminal and/or logs that the app is ready to listen for requests. For example:
+  With that, you can see in your terminal and logs that the app is ready to listen for requests. For example:
 
-    [2018-06-04T01:55:18.426Z] [info]: Server started at http://localhost:3000 NODE_ENV=development
+      [2018-06-04T01:55:18.426Z] [info]: Server started at http://localhost:3000 NODE_ENV=development
+
+  For run in production run this in terminal:
+
+      $ npm run start
+
+  And then check logs in `dirname/logs` to make sure that the startup is successful
 
 # Running the tests
 

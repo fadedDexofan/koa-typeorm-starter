@@ -10,7 +10,7 @@
     "url": "https://github.com/fadedDexofan/koa-typeorm-boilerplate"
   },
   "scripts": {
-    "start": "npm run serve",
+    "start": "npm run build && npm run serve",
     "build": "npm run build-ts && npm run tslint",
     "serve": "cross-env NODE_ENV=production node dist/server.js",
     "watch-node": "cross-env NODE_ENV=production nodemon dist/server.js",
