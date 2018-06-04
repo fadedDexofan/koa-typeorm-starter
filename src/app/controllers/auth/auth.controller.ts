@@ -141,7 +141,6 @@ export class AuthController {
         user: uuid,
         refreshToken,
       },
-      relations: ["user"],
     });
     if (!tokenInDB) {
       throw new NotFoundError("Token not found");

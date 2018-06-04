@@ -7,6 +7,6 @@ export class RefreshToken {
   @PrimaryGeneratedColumn() public id?: number;
   @Column({ type: "text" })
   public refreshToken: string;
-  @ManyToOne((type) => User, (user) => user.refreshTokens)
+  @ManyToOne((type) => User, (user) => user.refreshTokens, { eager: true })
   public user: User;
 }

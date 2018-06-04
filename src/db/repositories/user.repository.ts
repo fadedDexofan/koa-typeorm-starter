@@ -4,14 +4,14 @@ import { User } from "../entities";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   public async getUserByUuid(uuid: string): Promise<User | undefined> {
-    return this.findOne(uuid, { relations: ["roles"] });
+    return this.findOne(uuid);
   }
 
   public async getUserByUsername(username: string): Promise<User | undefined> {
-    return this.findOne({ username }, { relations: ["roles"] });
+    return this.findOne({ username });
   }
 
   public async getAllUsers(): Promise<User[] | undefined> {
-    return this.find({ relations: ["roles"] });
+    return this.find();
   }
 }

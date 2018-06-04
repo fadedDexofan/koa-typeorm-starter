@@ -33,7 +33,7 @@ export class User {
   @Column({ type: "text", select: false })
   public password: string;
 
-  @ManyToMany((type) => Role)
+  @ManyToMany((type) => Role, { eager: true })
   @JoinTable({ name: "user_roles" })
   public roles: Role[];
   @CreateDateColumn() public createdAt?: Date;
