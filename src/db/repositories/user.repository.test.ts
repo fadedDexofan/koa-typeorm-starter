@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { expect } from "chai";
 import { Container } from "typedi";
-import { getCustomRepository, QueryFailedError } from "typeorm";
+import { getCustomRepository } from "typeorm";
 
 import { Database } from "../database";
 import { User } from "../entities";
@@ -43,7 +43,7 @@ describe("unit test: user repository", async () => {
     user.roles = [{ id: 1, name: "user" }];
     user.password = "123456780";
     try {
-      const save = await getCustomRepository(UserRepository).save(user);
+      const _save = await getCustomRepository(UserRepository).save(user);
     } catch (err) {
       expect(err.name).to.be.equal("QueryFailedError");
     }

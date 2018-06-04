@@ -1,7 +1,4 @@
-import * as bcrypt from "bcryptjs";
-import { Exclude } from "class-transformer";
 import { IsEmail, MaxLength, MinLength } from "class-validator";
-import { BadRequestError } from "routing-controllers";
 import { Container } from "typedi";
 import {
   BeforeInsert,
@@ -52,7 +49,7 @@ export class User {
   }
 
   @BeforeInsert()
-  private async hashPassword?() {
+  private async _hashPassword?() {
     const bcryptService = Container.get(BcryptService);
     this.password = await bcryptService.hashString(this.password);
   }

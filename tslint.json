@@ -6,7 +6,15 @@
     "promise-function-async": true,
     "object-literal-sort-keys": false,
     "no-implicit-dependencies": [true, "dev"],
-    "no-console": false
+    "no-console": false,
+    "no-unused-variable": [true, { "ignore-pattern": "^_" }],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
   },
   "cliOptions": {
     "exclude": ["node_modules"]

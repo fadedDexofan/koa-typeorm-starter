@@ -1,9 +1,4 @@
-import {
-  EntityRepository,
-  FindManyOptions,
-  InsertResult,
-  Repository,
-} from "typeorm";
+import { EntityRepository, InsertResult, Repository } from "typeorm";
 import { Role } from "../entities/role.entity";
 
 @EntityRepository(Role)

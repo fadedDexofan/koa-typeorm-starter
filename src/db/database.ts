@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Container, Inject, Service } from "typedi";
+import { Container, Service } from "typedi";
 import {
   Connection,
   createConnection,

@@ -1,9 +1,4 @@
-import {
-  DeleteResult,
-  EntityRepository,
-  FindManyOptions,
-  Repository,
-} from "typeorm";
+import { EntityRepository, Repository } from "typeorm";
 import { RefreshToken, User } from "../entities";
 
 @EntityRepository(RefreshToken)

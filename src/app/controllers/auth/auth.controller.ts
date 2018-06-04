@@ -1,23 +1,15 @@
-import * as bcrypt from "bcryptjs";
-import { classToPlain } from "class-transformer";
 import * as jwt from "jsonwebtoken";
 import { Context } from "koa";
 import {
-  BadRequestError,
   Body,
   BodyParam,
   Ctx,
-  Delete,
-  Get,
   HttpCode,
   HttpError,
   InternalServerError,
   JsonController,
   NotFoundError,
-  Param,
   Post,
-  Put,
-  UseBefore,
 } from "routing-controllers";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
@@ -155,7 +147,7 @@ export class AuthController {
       throw new NotFoundError("Token not found");
     }
     try {
-      const valid = await this.jwtService.verify(refreshToken);
+      const _valid = await this.jwtService.verify(refreshToken);
     } catch (err) {
       await this.refreshRepository.remove(tokenInDB);
       throw new HttpError(403, "Invalid Refresh Token");
@@ -171,13 +163,13 @@ export class AuthController {
     );
 
     const rToken = new RefreshToken();
-    rToken.refreshToken = refreshToken;
+    rToken.refreshToken = newRefreshToken;
     rToken.user = tokenInDB.user;
     await this.refreshRepository.save(rToken);
 
     return {
       accessToken: newAccessToken.token,
-      refreshToken,
+      refreshToken: newRefreshToken,
       expires_in: newAccessToken.exp,
     };
   }

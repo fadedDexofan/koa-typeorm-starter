@@ -1,6 +1,6 @@
 import supertest from "supertest";
 
-import { expect, should } from "chai";
+import { expect } from "chai";
 import { Container } from "typedi";
 
 import { Database } from "../../../db/database";

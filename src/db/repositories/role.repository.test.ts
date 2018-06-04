@@ -2,10 +2,9 @@ import "reflect-metadata";
 
 import { expect } from "chai";
 import { Container } from "typedi";
-import { getCustomRepository, QueryFailedError } from "typeorm";
+import { getCustomRepository } from "typeorm";
 
 import { Database } from "../database";
-import { User } from "../entities";
 import { RoleRepository } from "./role.repository";
 
 describe("unit test: role repository", async () => {
@@ -29,7 +28,7 @@ describe("unit test: role repository", async () => {
 
   it("should fail to create new role", async () => {
     try {
-      const newRole = await getCustomRepository(RoleRepository).createRole(
+      const _newRole = await getCustomRepository(RoleRepository).createRole(
         "testrole",
       );
     } catch (err) {

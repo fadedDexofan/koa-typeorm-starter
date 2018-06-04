@@ -1,8 +1,6 @@
 import { Context } from "koa";
-import { Action, HttpError } from "routing-controllers";
-import { Container, Service } from "typedi";
+import { Container } from "typedi";
 import { getCustomRepository } from "typeorm";
-import { OrmRepository } from "typeorm-typedi-extensions";
 
 import { User } from "../../db/entities";
 import { UserRepository } from "../../db/repositories";
