@@ -18,11 +18,15 @@
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "cross-env NODE_ENV=development nodemon --inspect dist/server.js",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "serve-debug":
+      "cross-env NODE_ENV=development nodemon --inspect dist/server.js",
+    "watch-debug":
+      "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "test": "npm run unit:test && npm run e2e:test",
-    "unit:test": "npm run build-ts && cross-env NODE_ENV=test mocha ./dist/db/repositories/*.test.js --timeout 5000 --exit",
-    "e2e:test": "npm run build-ts && cross-env NODE_ENV=test mocha ./dist/app/controllers/**/*.controller.test.js --timeout 5000 --exit"
+    "unit:test":
+      "npm run build-ts && cross-env NODE_ENV=test mocha ./dist/db/repositories/*.test.js --timeout 5000 --exit",
+    "e2e:test":
+      "npm run build-ts && cross-env NODE_ENV=test mocha ./dist/app/controllers/**/*.controller.test.js --timeout 5000 --exit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
