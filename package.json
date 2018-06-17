@@ -47,7 +47,7 @@
     "routing-controllers": "^0.7.7",
     "shelljs": "^0.8.2",
     "typedi": "^0.7.3",
-    "typeorm": "^0.2.6",
+    "typeorm": "^0.2.7",
     "typeorm-typedi-extensions": "^0.2.1",
     "winston": "github:winstonjs/winston"
   },
