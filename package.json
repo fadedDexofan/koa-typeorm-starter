@@ -61,7 +61,7 @@
     "@types/koa": "^2.0.45",
     "@types/koa-bodyparser": "^4.2.0",
     "@types/koa-router": "^7.0.28",
-    "@types/mocha": "^5.2.2",
+    "@types/mocha": "^5.2.4",
     "@types/node": "^10.3.3",
     "@types/shelljs": "^0.8.0",
     "@types/supertest": "^2.0.4",
