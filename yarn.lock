@@ -97,9 +97,9 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/keygrip/-/keygrip-1.0.1.tgz#ff540462d2fb4d0a88441ceaf27d287b01c3d878"
 
-"@types/koa-bodyparser@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@types/koa-bodyparser/-/koa-bodyparser-4.2.0.tgz#04febc567f3d3dd40e3d1a0e095cdf7b07c4d7ce"
+"@types/koa-bodyparser@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/koa-bodyparser/-/koa-bodyparser-5.0.1.tgz#c40c0a0b7903df128a4e0677c51b5bdcc8bfa025"
   dependencies:
     "@types/koa" "*"
 
