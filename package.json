@@ -57,7 +57,7 @@
     "@types/chai-http": "^3.0.5",
     "@types/config": "0.0.34",
     "@types/dotenv": "^4.0.3",
-    "@types/jsonwebtoken": "^7.2.7",
+    "@types/jsonwebtoken": "^7.2.8",
     "@types/koa": "^2.0.45",
     "@types/koa-bodyparser": "^4.2.0",
     "@types/koa-router": "^7.0.30",
