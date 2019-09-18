@@ -38,7 +38,7 @@
     "config": "^1.30.0",
     "dotenv": "^6.0.0",
     "jsonwebtoken": "^8.3.0",
-    "kcors": "^2.2.1",
+    "kcors": "^2.2.2",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
