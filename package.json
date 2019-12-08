@@ -70,7 +70,7 @@
     "cross-env": "^5.2.0",
     "husky": "^0.14.3",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.1",
+    "nodemon": "^2.0.1",
     "supertest": "^3.1.0",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
