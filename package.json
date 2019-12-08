@@ -34,7 +34,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.8.5",
-    "commander": "^2.16.0",
+    "commander": "^4.0.1",
     "config": "^1.30.0",
     "dotenv": "^6.0.0",
     "jsonwebtoken": "^8.3.0",
