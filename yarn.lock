@@ -27,9 +27,9 @@
     "@types/node" "*"
     "@types/superagent" "*"
 
-"@types/chai@*", "@types/chai@^4.1.4":
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.4.tgz#5ca073b330d90b4066d6ce18f60d57f2084ce8ca"
+"@types/chai@*", "@types/chai@^4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.6.tgz#a55625d151d9c7c7a0a95920632131d66480bce9"
 
 "@types/config@0.0.34":
   version "0.0.34"
