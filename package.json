@@ -52,7 +52,7 @@
     "winston": "github:winstonjs/winston"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.1",
+    "@types/bcryptjs": "^2.4.2",
     "@types/chai": "^4.2.6",
     "@types/chai-http": "^3.0.5",
     "@types/config": "0.0.34",
