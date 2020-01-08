@@ -37,7 +37,7 @@
     "commander": "^2.16.0",
     "config": "^1.30.0",
     "dotenv": "^6.0.0",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^8.5.1",
     "kcors": "^2.2.2",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
