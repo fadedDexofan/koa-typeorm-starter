@@ -408,6 +408,10 @@ class-transformer@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.1.9.tgz#29977c528233ca014e6fd9523327ebd31d11ca54"
 
+class-transformer@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.3.1.tgz#ee681a5439ff2230fc57f5056412d3befa70d597"
+
 class-validator@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.11.0.tgz#5fca8b8a957c738a6749391e03ee81fad375dc4a"
